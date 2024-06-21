@@ -97,6 +97,12 @@ public:
 	virtual void clear();
 
 	/*
+		Iterates over the LinkedList;
+		Calls the callback function for each element;
+	*/
+	virtual void iterator(void (*iteratorCallback)(T &, T *_out), T *out);
+
+	/*
 		Sort the list, given a comparison function
 	*/
 	virtual void sort(int (*cmp)(T &, T &));
@@ -345,6 +351,22 @@ template<typename T>
 void LinkedList<T>::clear(){
 	while(size() > 0)
 		shift();
+}
+
+
+template<typename T>
+void LinkedList<T>::iterator(void (*iteratorCallback)(T &, T* _out), T *out){
+	ListNode<T>* current = root;
+
+	while(current){
+
+		// Post data to callback function
+		iteratorCallback(current->data, out);
+
+		current = current->next;
+	}
+
+	return NULL;
 }
 
 template<typename T>
